@@ -19,8 +19,12 @@
                     vnode.attrs.title,
                 ),
                 m('.mdl-card__actions', vnode.attrs.icons.map(function(icon) {
+                    var props = {};
+                    if ( icon === 'delete' ) {
+                        props = { onclick: () => vnode.attrs.ondelete(vnode.attrs.key) };
+                    }
                     return m('.mdl-button.mdl-button--icon',
-                        m('i.material-icons', icon),
+                        m('i.material-icons', props, icon),
                     );
                 })),
             ]);

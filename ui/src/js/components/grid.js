@@ -2,30 +2,22 @@
 (function() {
 
     Sets = {
-
-        sets: [
-            {id: 1, name: 'two', disabled: true},
-            {id: 2, name: 'four', disabled: true},
-        ],
-
-        data: function() {
-            return this.sets;
-        },
-
         view: function(vnode) {
-
+            var state = vnode.attrs._state;
+            var sets = vnode.attrs._state.sets;
             var gridClasses = classNames(
                 'main-grid',
                 'mdl-grid',
             );
-
             return m('div', {class: gridClasses}, [
-                vnode.state.data().map(function(set) {
-                    return m(SetCard, {set: set});
+                sets.map(function(set) {
+                    return m(SetCard, {
+                        _set: set,
+                        _onremove: state.removeSet,
+                    });
                 }),
                 m(NewSetCard),
             ]);
-
         },
     };
 

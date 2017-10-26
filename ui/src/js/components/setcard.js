@@ -3,11 +3,13 @@
 
     SetCard = {
         view: function(vnode) {
-            set = vnode.attrs.set;
+            var set = vnode.attrs._set;
+            var onremove = vnode.attrs._onremove;
             return m(Card, {
+                ondelete: onremove,
                 disabled: set.disabled,
                 title: set.name,
-                key: set.id,
+                key: set._id,
                 icons: ['share', 'delete'],
             });
         },

@@ -25,7 +25,7 @@
             return m('div', { class: layoutClasses },
                 m(Header),
                 m(Drawer),
-                m('main', {class: mainClasses}, [
+                m('main', { class: mainClasses }, [
                     vnode.children,
                 ]),
             );
