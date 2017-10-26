@@ -16,6 +16,11 @@ var model = {};
         this._id = data._id || '';
         this.deal = data.deal || new model.Deal();
         this.bids = data.bids || [];
+
+        this.makeBid = (bid) => {
+            console.log(bid);
+            this.bids.push(bid);
+        }
     };
 
     model.Deal = function(data) {

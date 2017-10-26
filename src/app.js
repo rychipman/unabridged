@@ -12,6 +12,16 @@
                     }),
                 ],
             }),
+            new model.Set({
+                _id: 'swxyz12345',
+                players: ['ryan@ryanchipman.com', 'mylesbkeating@gmail.com'],
+                tables: [
+                    new model.Table({
+                        _id: 'twxyz12345',
+                        bids: [ 'P', 'P' ],
+                    }),
+                ],
+            }),
         ],
         getSetById: id => {
             for ( set of state.sets ) {
@@ -30,13 +40,19 @@
 
             '/': {
                 onmatch: function() {
-                    m.route.set('/test/set');
+                    m.route.set('/sets');
                 },
             },
 
             '/sets': {
                 render: () => {
-
+                    return m(view.Layout, state.sets.map(set => {
+                        return m('a', {
+                            href: '/set/' + set._id,
+                            oncreate: m.route.link,
+                            onupdate: m.route.link,
+                        }, m('p', set._id));
+                    }));
                 },
             },
 
@@ -46,7 +62,7 @@
                     if (!set) {
                         console.log('error retrieving set')
                     }
-                    return m(view.Set, { set: set });
+                    return m(view.Layout, m(view.Set, { set: set }));
                 }
             },
 
@@ -67,7 +83,7 @@
                     }
                     var table = set.tables[idx];
 
-                    return m(view.Table, { set: set, table: table });
+                    return m(view.Layout, m(view.Table, { set: set, table: table }));
                 }
             },
 

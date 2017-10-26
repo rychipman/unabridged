@@ -28,8 +28,13 @@ var view = {};
             return [
                 m('h3', 'Table (id: ' + table._id + ')'),
                 m(view.Deal, { deal: deal }),
-                m(view.bidTable, { bids: table.bids, dealer: deal.dealer }),
-                m(view.bidButtons),
+                m(view.bidTable, {
+                    bids: table.bids,
+                    dealer: deal.dealer,
+                }),
+                m(view.bidButtons, {
+                    onbid: table.makeBid,
+                }),
             ];
         },
     };
@@ -100,18 +105,24 @@ var view = {};
 
     view.bidButtons = {
         view: function(vnode) {
+            var onbid = vnode.attrs.onbid;
+
             var suits = [ 'C', 'D', 'H', 'S', 'NT' ];
             var levels = [ '1', '2', '3', '4', '5', '6', '7' ];
             var others = [ 'Pass', 'Dbl', 'Rdbl' ];
 
             return m('table', [
                 m('tr', others.map(bid => {
-                    return m('td', m('button', bid));
+                    return m('td', m('button', {
+                        onclick: () => onbid(bid),
+                    }, bid));
                 })),
                 levels.map(level => {
                     return m('tr', suits.map(suit => {
                         var bid = level + suit;
-                        return m('td', m('button', bid));
+                        return m('td', m('button', {
+                            onclick: () => onbid(bid),
+                        }, bid));
                     }));
                 }),
             ]);
