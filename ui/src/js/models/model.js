@@ -26,8 +26,7 @@
         data = data || {};
         this._id = data._id || 'default_id';
         this.name = data.name || 'defaultname';
-        this.disabled = data.disabled || false;
-        this.active = data.active;
+        this.active = data.active || false;
     };
 
 })()

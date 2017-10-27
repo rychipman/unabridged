@@ -10,7 +10,7 @@
                 'mdl-cell', 'mdl-cell--4-col',
                 'mdl-color--white', 'mdl-color-text--grey-600',
                 'mdl-shadow--4dp',
-                {'disabled': vnode.attrs.disabled},
+                {'disabled': !vnode.attrs.active},
             );
             return m('div', {
                 key: vnode.attrs.key,

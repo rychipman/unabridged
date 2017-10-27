@@ -2,9 +2,9 @@
 (function() {
 
     var sets = [
-        new SetModel({_id: '1', name: 'one', disabled: false, active: true}),
-        new SetModel({_id: '2', name: 'two', disabled: false}),
-        new SetModel({_id: '3', name: 'three', disabled: true, active: true}),
+        new SetModel({_id: '1', name: 'one', active: true}),
+        new SetModel({_id: '2', name: 'two'}),
+        new SetModel({_id: '3', name: 'three', active: true}),
     ];
 
     var app = new AppModel({

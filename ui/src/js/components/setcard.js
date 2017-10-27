@@ -11,12 +11,12 @@
             var icons = {
                 delete: onremove,
             };
-            if (!set.disabled) {
+            if (set.active) {
                 icons['more'] = () => console.log('view set');
             };
 
             return m(Card, {
-                disabled: set.disabled,
+                disabled: !set.active,
                 title: set.name,
                 key: set._id,
                 icons: icons,
