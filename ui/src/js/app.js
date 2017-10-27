@@ -9,7 +9,13 @@
 
     var app = new AppModel({
         sets: sets,
-    })
+    });
+    app.auth.register('ryan@ryanchipman.com', 'password');
+    app.auth.login('ryan@ryanchipman.com', 'password');
+
+    var render = function(children) {
+        return m(Layout, { app: app }, children);
+    };
 
     window.onload = function() {
         m.route(document.body, '/', {
@@ -24,9 +30,7 @@
                     */
                 },
                 render: function() {
-                    return m(Layout,
-                        m('h1', 'This is the home page'),
-                    );
+                    return render(m('h1', 'This is the home page'));
                 },
             },
             '/sets/mine': {
@@ -45,7 +49,7 @@
                             filter = (set) => !set.active;
                             break;
                     }
-                    return m(Layout, m(Sets, {
+                    return render(m(Sets, {
                         _state: app,
                         _filter: filter,
                     }));
@@ -53,7 +57,7 @@
             },
             '/login': {
                 render: function() {
-                    return m(Layout, m(Login));
+                    return render(m(Login));
                 },
             },
         });

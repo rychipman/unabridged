@@ -12,6 +12,7 @@
         },
 
         view: function(vnode) {
+            var app = vnode.attrs.app;
             var layoutClasses = classNames(
                 'dashboard',
                 'mdl-layout', 'mdl-js-layout',
@@ -24,7 +25,7 @@
             )
             return m('div', { class: layoutClasses },
                 m(Header),
-                m(Drawer),
+                m(Drawer, { app: app }),
                 m('main', { class: mainClasses }, [
                     vnode.children,
                 ]),
