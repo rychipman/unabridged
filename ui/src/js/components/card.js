@@ -3,6 +3,7 @@
 
     Card = {
         view: function(vnode) {
+            var icons = vnode.attrs.icons;
             cardClasses = classNames(
                 'card',
                 'mdl-card',
@@ -18,14 +19,15 @@
                 m('h2.mdl-card__title.mdl-card--expand.mdl-color-text--grey-700',
                     vnode.attrs.title,
                 ),
-                m('.mdl-card__actions', vnode.attrs.icons.map(function(icon) {
-                    var props = {};
-                    if ( icon === 'delete' ) {
-                        props = { onclick: () => vnode.attrs.ondelete(vnode.attrs.key) };
-                    }
+                m('.mdl-card__actions', Object.keys(icons).map(key => {
+                    var icon = key;
+                    var handler = icons[key] || function(){};
                     return m('.mdl-button.mdl-button--icon',
-                        m('i.material-icons', props, icon),
+                        m('i.material-icons', {
+                            onclick: handler,
+                        }, icon),
                     );
+
                 })),
             ]);
         },

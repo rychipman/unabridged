@@ -4,13 +4,22 @@
     SetCard = {
         view: function(vnode) {
             var set = vnode.attrs._set;
-            var onremove = vnode.attrs._onremove;
+            var onremove = () => {
+                vnode.attrs._onremove(set._id);
+            };
+
+            var icons = {
+                delete: onremove,
+            };
+            if (!set.disabled) {
+                icons['more'] = () => console.log('view set');
+            };
+
             return m(Card, {
-                ondelete: onremove,
                 disabled: set.disabled,
                 title: set.name,
                 key: set._id,
-                icons: ['share', 'delete'],
+                icons: icons,
             });
         },
     };
@@ -19,7 +28,9 @@
         view: function(vnode) {
             return m(Card, {
                 title: 'Add New Set',
-                icons: ['more', 'add', 'star'],
+                icons: {
+                    add: vnode.attrs._onadd,
+                },
             });
         },
     };

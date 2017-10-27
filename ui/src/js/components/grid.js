@@ -5,18 +5,19 @@
         view: function(vnode) {
             var state = vnode.attrs._state;
             var sets = vnode.attrs._state.sets;
+            var filter = vnode.attrs._filter;
             var gridClasses = classNames(
                 'main-grid',
                 'mdl-grid',
             );
             return m('div', {class: gridClasses}, [
-                sets.map(function(set) {
+                sets.filter(filter).map(function(set) {
                     return m(SetCard, {
                         _set: set,
                         _onremove: state.removeSet,
                     });
                 }),
-                m(NewSetCard),
+                m(NewSetCard, { _onadd: state.addSet }),
             ]);
         },
     };

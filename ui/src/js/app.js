@@ -2,9 +2,9 @@
 (function() {
 
     var sets = [
-        new SetModel({_id: '1', name: 'one', disabled: true}),
-        new SetModel({_id: '2', name: 'two', disabled: true}),
-        new SetModel({_id: '3', name: 'three', disabled: true}),
+        new SetModel({_id: '1', name: 'one', disabled: false, active: true}),
+        new SetModel({_id: '2', name: 'two', disabled: false}),
+        new SetModel({_id: '3', name: 'three', disabled: true, active: true}),
     ];
 
     var app = new AppModel({
@@ -15,7 +15,6 @@
         m.route(document.body, '/', {
             '/': {
                 onmatch: function() {
-                    m.route.set('/sets/mine');
                     /*
                     if (Auth.isAuthenticated()) {
                         m.route.set('/sets/mine');
@@ -31,8 +30,25 @@
                 },
             },
             '/sets/mine': {
+                onmatch: function() {
+                    m.route.set('/sets/mine/all');
+                },
+            },
+            '/sets/mine/:filter': {
                 render: function() {
-                    return m(Layout, m(Sets, { _state: app }));
+                    var filter = () => true;
+                    switch (m.route.param('filter')) {
+                        case 'active':
+                            filter = (set) => set.active;
+                            break;
+                        case 'waiting':
+                            filter = (set) => !set.active;
+                            break;
+                    }
+                    return m(Layout, m(Sets, {
+                        _state: app,
+                        _filter: filter,
+                    }));
                 },
             },
             '/login': {

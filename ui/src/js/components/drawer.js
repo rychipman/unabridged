@@ -3,22 +3,10 @@
 
     Drawer = {
         links: [
-            ['home', 'Home', '#!/'],
-            ['list', 'My Sets', '#!/sets/mine'],
-            ['play_arrow', 'Bid My Sets', '#!/sets/mine/active'],
-            ['schedule', 'Sets in Flight', '#!/sets/mine/waiting'],
-            ['refresh', 'Refresh', '',
-                function() {
-                    console.log('click');
-                    m.request({
-                        url: 'http://localhost:8080/api',
-                        method: 'GET',
-                    }).then(function(res) {
-                        console.log(res);
-                        vnode.state.sets = res;
-                    });
-                },
-            ],
+            ['home', 'Home', '/'],
+            ['list', 'My Sets', '/sets/mine'],
+            ['play_arrow', 'Bid My Sets', '/sets/mine/active'],
+            ['schedule', 'Sets in Flight', '/sets/mine/waiting'],
         ],
 
         view: function(vnode) {
@@ -69,6 +57,8 @@
                                 class: linkClasses,
                                 href: row[2],
                                 onclick: row[3],
+                                oncreate: m.route.link,
+                                onupdate: m.route.link,
                             },
                             m('i', {class: iconClasses}, row[0]),
                             row[1],
