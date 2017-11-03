@@ -12,6 +12,16 @@ body {
     color: black;
 }
 
+.inner-grid .mdl-card__title {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.inner-grid .mdl-card__actions {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
 table.hand {
     font-size: 1.1rem;
 }
@@ -19,6 +29,10 @@ table.hand {
 table.hand td.suit {
     text-align: center;
     font-size: 1.6rem;
+}
+
+.mdl-grid.inner-grid {
+    padding: 0;
 }
 
 .suit.spades {

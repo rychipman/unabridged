@@ -95,39 +95,30 @@
     BidButtons = {
         view: (vnode) => {
             var table = vnode.attrs._table;
-            var data = {
-                key: 'buttons',
-                class: classNames(
-                    'fadein',
-                    'card', 'mdl-card',
-                    'mdl-cell', 'mdl-cell--4-col',
-                    'mdl-color--white', 'mdl-color-text--grey-100',
-                    'mdl-shadow--4dp',
-                    {'disabled': !vnode.attrs.active},
-                ),
-            };
-            return m('div', data, [
-                m('.mdl-card__title.mdl-card--border', [
-                    m('h2.mdl-card__title-text', 'Your Bid'),
-                ]),
-                m('.bidbuttons.mdl-card__supporting-text.mdl-grid', [
-                    ['spades', 'hearts', 'diamonds', 'clubs', 'dbl', 'rdbl'].map(suit =>  {
-                        return m('a', {
-                            class: classNames(
-                                'suit', suit,
-                                'mdl-button', 'mdl-cell',
-                                'mdl-cell--6-col',
-                                'mdl-cell--4-col-tablet',
-                                'mdl-cell--2-col-phone',
-                            ),
-                        }, suitSym[suit]);
-                    }),
-                ]),
-                m('.mdl-card__actions.mdl-card--border', [
-                    m('a.mdl-button.mdl-button--colored', { disabled: true }, 'Submit'),
-                    m('a.mdl-button.mdl-button--colored', 'Clear'),
-                ]),
+
+            var buttons = m('.bidbuttons', [
+                ['spades', 'hearts', 'diamonds', 'clubs', 'dbl', 'rdbl'].map(suit =>  {
+                    return m('a', {
+                        class: classNames(
+                            'suit', suit,
+                            'mdl-button', 'mdl-cell',
+                            'mdl-cell--6-col',
+                            'mdl-cell--4-col-tablet',
+                            'mdl-cell--2-col-phone',
+                        ),
+                    }, suitSym[suit]);
+                }),
             ]);
+
+            var attrs = {
+                _title: 'Your Bid',
+                _actions: {
+                    'Pass': true,
+                    'Submit': false,
+                },
+            };
+
+            return m(GridCard, attrs, buttons);
         },
     };
 
