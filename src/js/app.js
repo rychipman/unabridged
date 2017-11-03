@@ -26,6 +26,7 @@
     };
 
     window.onload = function() {
+        m.route.prefix('');
         m.route(document.body, '/', {
             '/': {
                 onmatch: function() {
