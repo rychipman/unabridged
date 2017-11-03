@@ -27,18 +27,25 @@
     };
 
     DrawerHeader = {
+        oncreate: function(vnode) {
+            componentHandler.upgradeElement(vnode.dom);
+        },
+
+        onupdate: function(vnode) {
+            componentHandler.upgradeElement(vnode.dom);
+        },
+
         view: (vnode) => {
             var user = vnode.attrs.user;
             return m('header.drawer-header', [
-                m('span.mdl-layout-title', user.name),
+                m('span.mdl-layout-title', 'Ryan Chipman'),
                 m('.user-dropdown',
-                    m('span', user.email),
+                    m('span', 'ryan@ryanchipman.com'),
                     m('span.mdl-layout-spacer'),
-                    m('button#accbtn.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon',
+                    m('button#accbtn.mdl-button.mdl-js-button.mdl-button--icon',
                         m('i.material-icons', 'arrow_drop_down'),
-                        m('span.visuallyhidden', 'Dropdown content')
                     ),
-                    m('ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu[for=accbtn]',
+                    m('ul.mdl-menu.mdl-menu--bottom-right.mdl-js-ripple-effect.mdl-js-menu[for=accbtn]',
                         m('li.mdl-menu__item', 'me@example.com'),
                         m('li.mdl-menu__item', 'someone_else@example.com'),
                         m('li.mdl-menu__item',
@@ -68,17 +75,17 @@
             );
             return m('nav', {class: navClasses}, [
                 vnode.attrs.links.map(function(row) {
-                    return m('a',
-                        {
-                            class: linkClasses,
-                            href: row[2],
-                            onclick: row[3],
-                            oncreate: m.route.link,
-                            onupdate: m.route.link,
-                        },
+                    var data = {
+                        class: linkClasses,
+                        href: row[2],
+                        onclick: row[3],
+                        oncreate: m.route.link,
+                        onupdate: m.route.link,
+                    };
+                    return m('a', data, [
                         m('i', {class: iconClasses}, row[0]),
-                        row[1],
-                    );
+                        m('span', row[1]),
+                    ]);
                 }),
                 m('.mdl-layout-spacer'),
                 m('a', { class: linkClasses },

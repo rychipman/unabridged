@@ -2,9 +2,17 @@
 (function() {
 
     var sets = [
-        new SetModel({_id: '1', name: 'one', active: true}),
+        new SetModel({_id: '1', name: 'one', active: true, tables: [
+            new TableModel({
+                bids: ['1S', 'Pass', '2D', 'Pass', '2S', 'Pass', '4S'],
+            }),
+        ]}),
         new SetModel({_id: '2', name: 'two'}),
-        new SetModel({_id: '3', name: 'three', active: true}),
+        new SetModel({_id: '3', name: 'three', active: true, tables: [
+            new TableModel(),
+            new TableModel(),
+            new TableModel(),
+        ]}),
     ];
 
     var app = new AppModel({
@@ -31,6 +39,25 @@
                 },
                 render: function() {
                     return render(m('h1', 'This is the home page'));
+                },
+            },
+            '/table/:id': {
+                render: () => {
+                    var id = m.route.param('id');
+                    var table = app.findTableById(id);
+                    if (!table) {
+                        console.log('no table');
+                        m.route.set('/');
+                        return;
+                    }
+                    return render(m(Table, { _table: table }));
+                },
+            },
+            '/set/:id': {
+                render: () => {
+                    var id = m.route.param('id');
+                    var set = app.findSetById(id);
+                    return render(m(Set, { _set: set }));
                 },
             },
             '/sets/mine': {

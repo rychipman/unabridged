@@ -21,6 +21,21 @@
             });
             this.sets.push(set);
         };
+        this.findSetById = (id) => {
+            for (set of this.sets) {
+                if ( set._id === id ) {
+                    return set;
+                }
+            }
+        };
+        this.findTableById = (id) => {
+            for (set of this.sets) {
+                var tab = set.findTableById(id);
+                if ( tab ) {
+                    return tab;
+                }
+            }
+        };
     };
 
     AuthModel = function(data) {
@@ -60,13 +75,6 @@
         this.name = data.name || 'Your Name Here';
         this.email = data.email || 'default@example.com';
         this.password = data.password || 'password';
-    };
-
-    SetModel = function(data) {
-        data = data || {};
-        this._id = data._id || 'default_id';
-        this.name = data.name || 'defaultname';
-        this.active = data.active || false;
     };
 
 })()

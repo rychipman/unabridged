@@ -8,6 +8,47 @@ body {
     max-width: 1080px;
 }
 
+.hand {
+    color: black;
+}
+
+table.hand {
+    font-size: 1.1rem;
+}
+
+table.hand td.suit {
+    text-align: center;
+    font-size: 1.6rem;
+}
+
+.suit.spades {
+    color: black;
+}
+
+.suit.hearts {
+    color: red;
+}
+
+.suit.diamonds {
+    color: red;
+}
+
+.suit.clubs {
+    color: black;
+}
+
+.bidbuttons .suit {
+    font-size: 2rem;
+}
+
+.fadein {
+    animation:fade-in 0.8s;
+}
+@keyframes fade-in {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+
 .dashboard > header > .mdl-layout__drawer-button {
     color: rgba(0, 0, 0, 0.54);
     font-family: Roboto, sans-serif;
