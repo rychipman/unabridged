@@ -12,6 +12,14 @@ body {
     color: black;
 }
 
+.bid, .seat {
+    box-shadow: none;
+}
+
+.bid.waiting {
+    background-color: #eace31;
+}
+
 .inner-grid .mdl-card__title {
     margin-top: 0;
     margin-bottom: 0;

@@ -61,34 +61,60 @@
     BidTable = {
         view: (vnode) => {
             var table = vnode.attrs._table;
-            var data = {
-                key: 'table',
+
+            var seatAttrs = {
                 class: classNames(
-                    'fadein',
-                    'card', 'mdl-card',
-                    'mdl-cell', 'mdl-cell--4-col',
-                    'mdl-color--white', 'mdl-color-text--grey-100',
-                    'mdl-shadow--4dp',
-                    {'disabled': !vnode.attrs.active},
+                    'seat',
+                    'mdl-button', 'mdl-button--raised',
+                    'mdl-button--colored',
+                    'mdl-cell',
+                    'mdl-cell--3-col',
+                    'mdl-cell--2-col-tablet',
+                    'mdl-cell--1-col-phone',
                 ),
             };
-            return m('div', data, [
-                m('.mdl-card__title.mdl-card--border', [
-                    m('h2.mdl-card__title-text', 'Bids'),
-                ]),
-                m('.bidbuttons.mdl-card__supporting-text', [
-                    m('table.bidtable.mdl-data-table', [
-                        m('tr', ['North','South','East','West'].map(seat => m('th', seat))),
-                        table.paginatedBids().map(row => {
-                            console.log(row);
-                            return m('tr', row.map(bid => m('td', bid)));
-                        })
-                    ]),
-                ]),
-                m('.mdl-card__actions.mdl-card--border', [
-                    m('a.mdl-button.mdl-button--colored', { disabled: true }, 'Analyze'),
-                ]),
+
+            var bidAttrs = {
+                class: classNames(
+                    'bid',
+                    'mdl-button', 'mdl-button--raised',
+                    'mdl-cell',
+                    'mdl-cell--3-col',
+                    'mdl-cell--2-col-tablet',
+                    'mdl-cell--1-col-phone',
+                ),
+            };
+
+            var nextBidAttrs = {
+                class: classNames(
+                    'bid', 'waiting',
+                    'mdl-button', 'mdl-button--raised',
+                    'mdl-cell',
+                    'mdl-cell--3-col',
+                    'mdl-cell--2-col-tablet',
+                    'mdl-cell--1-col-phone',
+                ),
+            };
+
+            var bids = m('.bids', [
+                ['N','S','E','W'].map(seat => {
+                    return m('a', seatAttrs, seat);
+                }),
+                table.bids.map(bid => {
+                    return m('a', bidAttrs, bid);
+                }),
+                m('a', nextBidAttrs, '?'),
             ]);
+
+            var attrs = {
+                _title: 'Bids',
+                _actions: {
+                    'Analyze': false,
+                    'Comment': false,
+                },
+            };
+
+            return m(GridCard, attrs, bids);
         },
     };
 
