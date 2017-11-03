@@ -30,7 +30,7 @@
                 class: classNames(
                     'fadein',
                     'card', 'mdl-card',
-                    'mdl-cell', 'mdl-cell--3-col',
+                    'mdl-cell', 'mdl-cell--4-col',
                     'mdl-color--white', 'mdl-color-text--grey-100',
                     'mdl-shadow--4dp',
                     {'disabled': !vnode.attrs.active},
@@ -98,7 +98,7 @@
                 class: classNames(
                     'fadein',
                     'card', 'mdl-card',
-                    'mdl-cell', 'mdl-cell--3-col',
+                    'mdl-cell', 'mdl-cell--4-col',
                     'mdl-color--white', 'mdl-color-text--grey-100',
                     'mdl-shadow--4dp',
                     {'disabled': !vnode.attrs.active},
