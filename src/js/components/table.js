@@ -20,6 +20,8 @@
         hearts: '\u2665',
         diamonds: '\u2666',
         clubs: '\u2663',
+        dbl: 'dbl',
+        rdbl: 'rdbl',
     };
 
     Hand = {
@@ -108,12 +110,18 @@
                 m('.mdl-card__title.mdl-card--border', [
                     m('h2.mdl-card__title-text', 'Your Bid'),
                 ]),
-                m('.bidbuttons.mdl-card__supporting-text', [
-                    ['spades', 'hearts', 'diamonds', 'clubs'].map(suit =>  {
-                        return m('a.mdl-button.suit.'+suit, suitSym[suit]);
+                m('.bidbuttons.mdl-card__supporting-text.mdl-grid', [
+                    ['spades', 'hearts', 'diamonds', 'clubs', 'dbl', 'rdbl'].map(suit =>  {
+                        return m('a', {
+                            class: classNames(
+                                'suit', suit,
+                                'mdl-button', 'mdl-cell',
+                                'mdl-cell--6-col',
+                                'mdl-cell--4-col-tablet',
+                                'mdl-cell--2-col-phone',
+                            ),
+                        }, suitSym[suit]);
                     }),
-                    m('a.mdl-button', 'DBL'),
-                    m('a.mdl-button', 'RDBL'),
                 ]),
                 m('.mdl-card__actions.mdl-card--border', [
                     m('a.mdl-button.mdl-button--colored', { disabled: true }, 'Submit'),

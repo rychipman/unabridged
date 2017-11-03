@@ -41,6 +41,10 @@ table.hand td.suit {
     font-size: 2rem;
 }
 
+.bidbuttons .suit.dbl,.suit.rdbl {
+    font-size: 1rem;
+}
+
 .fadein {
     animation:fade-in 0.8s;
 }
