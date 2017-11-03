@@ -59,12 +59,18 @@
 
             var actionElts = m('.mdl-card__actions.mdl-card--border', [
                 Object.keys(actions).map(action => {
+                    var handler = actions[action];
+                    var disabled = true;
+                    if (handler) {
+                        disabled = false;
+                    }
                     var btnAttrs = {
                         class: classNames(
                             'mdl-button', 'mdl-button--colored',
                             'mdl-cell', 'mdl-cell--6-col',
                         ),
-                        disabled: !actions[action],
+                        disabled: disabled,
+                        onclick: handler,
                     };
                     return m('a', btnAttrs, action);
                 }),

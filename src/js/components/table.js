@@ -119,10 +119,38 @@
     };
 
     BidButtons = {
-        view: (vnode) => {
-            var table = vnode.attrs._table;
+        oninit: (vnode) => vnode.state.bid = new BidModel(),
 
-            var buttons = m('.bidbuttons', [
+        view: (vnode) => {
+            var bid = vnode.state.bid;
+
+            var buttons = vnode.state.viewSuitButtons(vnode);
+            var actions = {
+                    'Pass': () => vnode.state.bid = new BidModel('pass'),
+                    'Submit': bid.canSubmit() ? bid.submit : false,
+            };
+
+            if (!bid.empty() && bid.suit) {
+                buttons = vnode.state.viewLevelButtons(vnode);
+                delete actions['Pass'];
+                actions['Clear'] = () => vnode.state.bid = new BidModel();
+            }
+
+            var currentBid = '';
+            if (bid.canSubmit()) {
+                currentBid = ': ' + vnode.state.bid.pretty();
+            }
+
+            var attrs = {
+                _title: 'Your Bid' + currentBid,
+                _actions: actions,
+            };
+
+            return m(GridCard, attrs, buttons);
+        },
+
+        viewSuitButtons: (vnode) => {
+            return m('.bidbuttons', [
                 ['spades', 'hearts', 'diamonds', 'clubs', 'dbl', 'rdbl'].map(suit =>  {
                     return m('a', {
                         class: classNames(
@@ -132,19 +160,29 @@
                             'mdl-cell--4-col-tablet',
                             'mdl-cell--2-col-phone',
                         ),
+                        onclick: () => vnode.state.bid = new BidModel(suit),
                     }, suitSym[suit]);
                 }),
             ]);
+        },
 
-            var attrs = {
-                _title: 'Your Bid',
-                _actions: {
-                    'Pass': true,
-                    'Submit': false,
-                },
-            };
-
-            return m(GridCard, attrs, buttons);
+        viewLevelButtons: (vnode) => {
+            var bid = vnode.state.bid;
+            var suit = bid.prettySuit();
+            return m('.bidbuttons', [
+                ['1', '2', '3', '4', '5', '6', '7'].map(level =>  {
+                    return m('a', {
+                        class: classNames(
+                            'suit',
+                            'mdl-button', 'mdl-cell',
+                            'mdl-cell--6-col',
+                            'mdl-cell--4-col-tablet',
+                            'mdl-cell--2-col-phone',
+                        ),
+                        onclick: () => bid.level = level,
+                    }, level, m('span', {class: 'suit '+suit}, bid.suitSymbol()));
+                }),
+            ]);
         },
     };
 
