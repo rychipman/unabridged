@@ -49,7 +49,13 @@
     CLUBS = new SuitModel('c');
 
     BidModel = function(data) {
-        if (data instanceof SuitModel) {
+        if (data instanceof BidModel) {
+            this.pass = data.pass;
+            this.dbl = data.dbl;
+            this.rdbl = data.rdbl;
+            this.level = data.level;
+            this.suit = data.suit;
+        } else if (data instanceof SuitModel) {
             this.suit = data;
         } else if (data) {
             switch (data[0].toUpperCase()) {
@@ -89,9 +95,34 @@
             return level + this.suit.symbol();
         };
 
+        this.markup = () => {
+            if (this.pass) {
+                return 'Pass';
+            } else if (this.dbl) {
+                return 'Dbl';
+            } else if (this.rdbl) {
+                return 'Rdbl';
+            }
+
+            if (!this.suit) {
+                return '__empty__';
+            }
+
+            var level = this.level || '?';
+
+            var attrs = {
+                class: 'suit ' + this.suit.name(),
+            };
+
+            return m('span', [
+                level,
+                m('span', attrs, this.suit.symbol()),
+            ]);
+        };
+
         this.submit = () => {
             console.log('submitted!');
-        }
+        };
 
         this.canSubmit = () => {
             return (this.pass || this.dbl || this.rdbl || (this.suit && this.level));

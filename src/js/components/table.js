@@ -27,34 +27,22 @@
     Hand = {
         view: (vnode) => {
             var table = vnode.attrs._table;
-            var data = {
-                key: 'hand',
-                class: classNames(
-                    'fadein',
-                    'card', 'mdl-card',
-                    'mdl-cell', 'mdl-cell--4-col',
-                    'mdl-color--white', 'mdl-color-text--grey-100',
-                    'mdl-shadow--4dp',
-                    {'disabled': !vnode.attrs.active},
-                ),
+
+            var attrs = {
+                _title: 'Your Hand',
+                _actions: {
+                    'Analyze': false,
+                },
             };
-            return m('div', data, [
-                m('.mdl-card__title.mdl-card--border', [
-                    m('h2.mdl-card__title-text', 'Hand'),
-                ]),
-                m('table.hand.mdl-card__supporting-text', [
-                    ['spades', 'hearts', 'diamonds', 'clubs'].map(suit =>  {
-                        var cards = table.deal.hands[0][suit];
-                        return m('tr', [
-                            m('td.suit.'+suit, suitSym[suit]),
-                            m('td.cards', cards),
-                        ]);
-                    }),
-                ]),
-                m('.mdl-card__actions.mdl-card--border', [
-                    m('a.mdl-button.mdl-button--colored', 'Analyze Hand'),
-                ]),
+
+            var hand = m('.hand.mdl-cell.mdl-cell--12-col', [
+                ['spades', 'hearts', 'diamonds', 'clubs'].map(suit =>  {
+                    var cards = table.deal.hands[0][suit];
+                    return m('p', m('span.suit.'+suit, suitSym[suit]), ' ', cards);
+                }),
             ]);
+
+            return m(GridCard, attrs, hand)
         },
     };
 
@@ -101,7 +89,7 @@
                     return m('a', seatAttrs, seat);
                 }),
                 table.bids.map(bid => {
-                    return m('a', bidAttrs, bid.pretty());
+                    return m('a', bidAttrs, bid.markup());
                 }),
                 m('a', nextBidAttrs, '?'),
             ]);
@@ -127,8 +115,11 @@
 
             var buttons = vnode.state.viewSuitButtons(vnode);
             var actions = {
-                    'Submit': !bid.canSubmit() ? false : () => table.makeBid(bid),
-                    'Clear': bid.empty() ? false : () => vnode.state.bid = new BidModel(),
+                'Submit': !bid.canSubmit() ? false : () => {
+                    table.makeBid(bid);
+                    vnode.state.bid = new BidModel();
+                },
+                'Clear': bid.empty() ? false : () => vnode.state.bid = new BidModel(),
             };
 
             if (!bid.empty() && bid.suit) {
@@ -137,11 +128,11 @@
 
             var currentBid = '?';
             if (!bid.empty()) {
-                currentBid = vnode.state.bid.pretty();
+                currentBid = vnode.state.bid.markup();
             }
 
             var attrs = {
-                _title: 'Your Bid: ' + currentBid,
+                _title: m('span', 'Your Bid: ', currentBid),
                 _actions: actions,
             };
 
@@ -160,7 +151,7 @@
                             'mdl-cell--2-col-phone',
                         ),
                         onclick: () => vnode.state.bid = bid,
-                    }, bid.pretty());
+                    }, bid.markup());
                 }),
                 [NOTRUMP, SPADES, HEARTS, DIAMONDS, CLUBS].map(suit =>  {
                     return m('a', {
@@ -182,6 +173,8 @@
             var suit = bid.suit;
             return m('.bidbuttons', [
                 ['1', '2', '3', '4', '5', '6', '7'].map(level =>  {
+                    var option = new BidModel(bid);
+                    option.level = level;
                     return m('a', {
                         class: classNames(
                             'suit',
@@ -191,7 +184,7 @@
                             'mdl-cell--2-col-phone',
                         ),
                         onclick: () => bid.level = level,
-                    }, level, m('span', {class: 'suit '+suit.name()}, suit.symbol()));
+                    }, option.markup());
                 }),
             ]);
         },

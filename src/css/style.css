@@ -34,6 +34,19 @@ body {
     padding: 0;
 }
 
+.hand p {
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.bids .suit {
+    font-size: 1.2rem;
+}
+
+.hand .suit {
+    font-size: 1.6rem;
+}
+
 .suit.spades {
     color: black;
 }
