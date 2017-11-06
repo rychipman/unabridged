@@ -2,13 +2,13 @@
 (function() {
 
     var sets = [
-        new SetModel({_id: '1', name: 'one', active: true, tables: [
+        new SetModel({name: 'one', active: true, tables: [
             new TableModel({
                 bids: [PASS],
             }),
         ]}),
-        new SetModel({_id: '2', name: 'two'}),
-        new SetModel({_id: '3', name: 'three', active: true, tables: [
+        new SetModel({name: 'two'}),
+        new SetModel({name: 'three', active: true, tables: [
             new TableModel(),
             new TableModel(),
             new TableModel(),

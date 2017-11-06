@@ -1,5 +1,12 @@
 (function() {
 
+    var newObjectId = function () {
+        var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
+        return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {
+            return (Math.random() * 16 | 0).toString(16);
+        }).toLowerCase();
+    };
+
     SuitModel = function(str) {
         var suit = str[0].toUpperCase();
         switch (suit) {
@@ -135,7 +142,7 @@
 
     SetModel = function(data) {
         data = data || {};
-        this._id = data._id || 'default_id';
+        this._id = data._id || newObjectId();
         this.name = data.name || 'defaultname';
         this.active = data.active || false;
         this.players = data.players || [];
@@ -151,7 +158,7 @@
 
     TableModel = function(data) {
         data = data || {};
-        this._id = data._id || 'default_id';
+        this._id = data._id || newObjectId();
         this.active = true;
         this.deal = data.deal || new DealModel();
         this.bids = data.bids || [];
@@ -192,7 +199,7 @@
 
     DealModel = function(data) {
         data = data || {};
-        this._id = data._id || '';
+        this._id = data._id || newObjectId();
         this.dealer = data.dealer || 'N';
         this.hands = data.hands || [
             new HandModel(),
@@ -204,7 +211,6 @@
 
     HandModel = function(data) {
         data = data || {};
-        this._id = data._id || '';
         this.spades = data.spades || '2345';
         this.hearts = data.hearts || '234';
         this.diamonds = data.diamonds || '234';
