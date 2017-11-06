@@ -101,7 +101,7 @@
                     return m('a', seatAttrs, seat);
                 }),
                 table.bids.map(bid => {
-                    return m('a', bidAttrs, bid);
+                    return m('a', bidAttrs, bid.pretty());
                 }),
                 m('a', nextBidAttrs, '?'),
             ]);
@@ -122,27 +122,26 @@
         oninit: (vnode) => vnode.state.bid = new BidModel(),
 
         view: (vnode) => {
+            var table = vnode.attrs._table;
             var bid = vnode.state.bid;
 
             var buttons = vnode.state.viewSuitButtons(vnode);
             var actions = {
-                    'Pass': () => vnode.state.bid = new BidModel('pass'),
-                    'Submit': bid.canSubmit() ? bid.submit : false,
+                    'Submit': !bid.canSubmit() ? false : () => table.makeBid(bid),
+                    'Clear': bid.empty() ? false : () => vnode.state.bid = new BidModel(),
             };
 
             if (!bid.empty() && bid.suit) {
                 buttons = vnode.state.viewLevelButtons(vnode);
-                delete actions['Pass'];
-                actions['Clear'] = () => vnode.state.bid = new BidModel();
             }
 
-            var currentBid = '';
-            if (bid.canSubmit()) {
-                currentBid = ': ' + vnode.state.bid.pretty();
+            var currentBid = '?';
+            if (!bid.empty()) {
+                currentBid = vnode.state.bid.pretty();
             }
 
             var attrs = {
-                _title: 'Your Bid' + currentBid,
+                _title: 'Your Bid: ' + currentBid,
                 _actions: actions,
             };
 
@@ -151,24 +150,36 @@
 
         viewSuitButtons: (vnode) => {
             return m('.bidbuttons', [
-                ['spades', 'hearts', 'diamonds', 'clubs', 'dbl', 'rdbl'].map(suit =>  {
+                [DBL, RDBL, PASS].map(bid =>  {
                     return m('a', {
                         class: classNames(
-                            'suit', suit,
+                            'suit', bid.pretty().toLowerCase(),
+                            'mdl-button', 'mdl-cell',
+                            'mdl-cell--6-col',
+                            'mdl-cell--4-col-tablet',
+                            'mdl-cell--2-col-phone',
+                        ),
+                        onclick: () => vnode.state.bid = bid,
+                    }, bid.pretty());
+                }),
+                [NOTRUMP, SPADES, HEARTS, DIAMONDS, CLUBS].map(suit =>  {
+                    return m('a', {
+                        class: classNames(
+                            'suit', suit.name(),
                             'mdl-button', 'mdl-cell',
                             'mdl-cell--6-col',
                             'mdl-cell--4-col-tablet',
                             'mdl-cell--2-col-phone',
                         ),
                         onclick: () => vnode.state.bid = new BidModel(suit),
-                    }, suitSym[suit]);
+                    }, suit.symbol());
                 }),
             ]);
         },
 
         viewLevelButtons: (vnode) => {
             var bid = vnode.state.bid;
-            var suit = bid.prettySuit();
+            var suit = bid.suit;
             return m('.bidbuttons', [
                 ['1', '2', '3', '4', '5', '6', '7'].map(level =>  {
                     return m('a', {
@@ -180,7 +191,7 @@
                             'mdl-cell--2-col-phone',
                         ),
                         onclick: () => bid.level = level,
-                    }, level, m('span', {class: 'suit '+suit}, bid.suitSymbol()));
+                    }, level, m('span', {class: 'suit '+suit.name()}, suit.symbol()));
                 }),
             ]);
         },

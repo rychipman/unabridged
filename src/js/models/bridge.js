@@ -1,7 +1,57 @@
 (function() {
 
+    SuitModel = function(str) {
+        var suit = str[0].toUpperCase();
+        switch (suit) {
+        case 'S':
+        case 'H':
+        case 'D':
+        case 'C':
+        case 'N':
+            this.suit = suit;
+        }
+
+        this.name = () => {
+            switch (suit) {
+            case 'S':
+                return 'spades';
+            case 'H':
+                return 'hearts';
+            case 'D':
+                return 'diamonds';
+            case 'C':
+                return 'clubs';
+            case 'N':
+                return 'notrump';
+            }
+        };
+
+        this.symbol = () => {
+            switch (suit) {
+            case 'S':
+                return '\u2660';
+            case 'H':
+                return '\u2665';
+            case 'D':
+                return '\u2666';
+            case 'C':
+                return '\u2663';
+            case 'N':
+                return 'NT';
+            }
+        };
+    };
+
+    NOTRUMP = new SuitModel('n');
+    SPADES = new SuitModel('s');
+    HEARTS = new SuitModel('h');
+    DIAMONDS = new SuitModel('d');
+    CLUBS = new SuitModel('c');
+
     BidModel = function(data) {
-        if (data) {
+        if (data instanceof SuitModel) {
+            this.suit = data;
+        } else if (data) {
             switch (data[0].toUpperCase()) {
             case 'P':
                 this.pass = true;
@@ -12,16 +62,9 @@
             case 'R':
                 this.rdbl = true;
                 break;
-            case 'S':
-                this.suit = 'S';
-                break;
-            case 'H':
-                this.suit = 'H';
-                break;
-            //case 'D':
-            case 'C':
-                this.suit = 'C';
-                break;
+            default:
+                this.level = data[0];
+                this.suit = new SuitModel(data.slice(1));
             }
         }
 
@@ -43,33 +86,7 @@
             }
 
             var level = this.level || '?';
-            return level + this.suitSymbol();
-        };
-
-        this.prettySuit = () => {
-            switch (this.suit) {
-            case 'S':
-                return 'spades';
-            case 'H':
-                return 'hearts';
-            case 'D':
-                return 'diamonds';
-            case 'C':
-                return 'clubs';
-            }
-        };
-
-        this.suitSymbol = () => {
-            switch (this.suit[0].toUpperCase()) {
-            case 'S':
-                return '\u2660';
-            case 'H':
-                return '\u2665';
-            case 'D':
-                return '\u2666';
-            case 'C':
-                return '\u2663';
-            }
+            return level + this.suit.symbol();
         };
 
         this.submit = () => {
@@ -80,6 +97,10 @@
             return (this.pass || this.dbl || this.rdbl || (this.suit && this.level));
         };
     }
+
+    DBL = new BidModel('double');
+    RDBL = new BidModel('redouble');
+    PASS = new BidModel('pass');
 
     SetModel = function(data) {
         data = data || {};
@@ -104,7 +125,6 @@
         this.deal = data.deal || new DealModel();
         this.bids = data.bids || [];
         this.makeBid = (bid) => {
-            console.log(bid);
             this.bids.push(bid);
         };
         this.paginatedBids = () => {

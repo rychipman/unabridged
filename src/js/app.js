@@ -4,7 +4,7 @@
     var sets = [
         new SetModel({_id: '1', name: 'one', active: true, tables: [
             new TableModel({
-                bids: ['1S', 'Pass', '2D', 'Pass', '2S', 'Pass', '4S'],
+                bids: [PASS],
             }),
         ]}),
         new SetModel({_id: '2', name: 'two'}),

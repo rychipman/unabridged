@@ -30,17 +30,12 @@ body {
     padding-bottom: 0;
 }
 
-table.hand {
-    font-size: 1.1rem;
-}
-
-table.hand td.suit {
-    text-align: center;
-    font-size: 1.6rem;
-}
-
 .mdl-grid.inner-grid {
     padding: 0;
+}
+
+.suit.spades {
+    color: black;
 }
 
 .suit.spades {
@@ -63,8 +58,12 @@ table.hand td.suit {
     font-size: 2rem;
 }
 
-.bidbuttons .suit.dbl,.suit.rdbl {
-    font-size: 1rem;
+.bidbuttons .suit.notrump {
+    font-size: 1.4rem;
+}
+
+.bidbuttons .suit.dbl,.suit.rdbl,.suit.pass {
+    font-size: 1.1rem;
 }
 
 .fadein {
