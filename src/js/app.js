@@ -18,8 +18,6 @@
     var app = new AppModel({
         sets: sets,
     });
-    app.auth.register('ryan@ryanchipman.com', 'password');
-    app.auth.login('ryan@ryanchipman.com', 'password');
 
     var render = function(children) {
         return m(Layout, { app: app }, children);

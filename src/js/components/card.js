@@ -65,6 +65,7 @@
             };
 
             var actionElts = m('.mdl-card__actions.mdl-card--border', [
+                //m('.mdl-layout-spacer'),
                 Object.keys(actions).map(action => {
                     var handler = actions[action];
                     var disabled = true;
@@ -79,7 +80,10 @@
                         disabled: disabled,
                         onclick: handler,
                     };
-                    return m('a', btnAttrs, action);
+                    return [
+                        m('a', btnAttrs, action),
+                     //   m('.mdl-layout-spacer'),
+                    ];
                 }),
             ]);
 

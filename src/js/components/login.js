@@ -19,6 +19,13 @@
     };
 
     CredCard = {
+        oncreate: function(vnode) {
+            componentHandler.upgradeElement(vnode.dom);
+        },
+        onupdate: function(vnode) {
+            componentHandler.upgradeElement(vnode.dom);
+        },
+
         view: function(vnode) {
             cardClasses = classNames(
                 'card',
