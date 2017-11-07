@@ -35,7 +35,7 @@
                 },
             };
 
-            var hand = m('.hand.mdl-cell.mdl-cell--12-col', [
+            var hand = m('.hand.mdl-cell.mdl-cell--12-col.mdl-cell--middle', [
                 ['spades', 'hearts', 'diamonds', 'clubs'].map(suit =>  {
                     var cards = table.deal.hands[0][suit];
                     return m('p', m('span.suit.'+suit, suitSym[suit]), ' ', cards);

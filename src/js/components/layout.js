@@ -19,7 +19,6 @@
             var mainClasses = classNames(
                 'main-content',
                 'mdl-layout__content',
-                'mdl-color--grey-100',
             )
             return m('div', { class: layoutClasses },
                 m(Header),

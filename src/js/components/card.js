@@ -45,15 +45,22 @@
                     'fadein',
                     'card', 'mdl-card', 'mdl-cell',
                     'mdl-cell--' + width + '-col',
-                    'mdl-color--white', 'mdl-shadow--4dp',
-                    'mdl-grid', 'inner-grid',
+                    'mdl-shadow--4dp',
                 ),
             };
 
             var titleAttrs = {
                 class: classNames(
-                    'mdl-card__title', 'mdl-card--border',
-                    'mdl-cell', 'mdl-cell--12-col', 'mdl-cell--top',
+                    'mdl-card__title',
+                    'mdl-color-text--white',
+                    'mdl-color--primary',
+                ),
+            };
+
+            var contentAttrs = {
+                class: classNames(
+                    'mdl-grid', 'inner-grid',
+                    'mdl-card--expand',
                 ),
             };
 
@@ -66,8 +73,8 @@
                     }
                     var btnAttrs = {
                         class: classNames(
-                            'mdl-button', 'mdl-button--colored',
-                            'mdl-cell', 'mdl-cell--6-col',
+                            'mdl-button',
+                            'mdl-button--colored',
                         ),
                         disabled: disabled,
                         onclick: handler,
@@ -81,8 +88,8 @@
             }
 
             return m('.gridcard', cardAttrs, [
-                m('h2.mdl-card__title-text', titleAttrs, title),
-                vnode.children,
+                m('div', titleAttrs, m('h2.mdl-card__title-text', title)),
+                m('.card-contents', contentAttrs, vnode.children),
                 actionElts,
             ]);
         },

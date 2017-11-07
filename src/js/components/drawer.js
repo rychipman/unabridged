@@ -15,7 +15,7 @@
             var drawerClasses = classNames(
                 'drawer',
                 'mdl-layout__drawer',
-                'mdl-color--blue-grey-900', 'mdl-color-text--blue-grey-50',
+                //'mdl-color--blue-grey-900', 'mdl-color-text--blue-grey-50',
             );
 
             return m('div', {class: drawerClasses}, [
@@ -37,21 +37,20 @@
 
         view: (vnode) => {
             var user = vnode.attrs.user;
+            var name;
+            var email;
+            if (user) {
+                name = user.name;
+                email = user.email;
+            }
+
             return m('header.drawer-header', [
-                m('span.mdl-layout-title', 'Ryan Chipman'),
+                m('span.mdl-layout-title', name || 'Not Logged In'),
                 m('.user-dropdown',
-                    m('span', 'ryan@ryanchipman.com'),
+                    m('span', email || 'Login or Register'),
                     m('span.mdl-layout-spacer'),
                     m('button#accbtn.mdl-button.mdl-js-button.mdl-button--icon',
                         m('i.material-icons', 'arrow_drop_down'),
-                    ),
-                    m('ul.mdl-menu.mdl-menu--bottom-right.mdl-js-ripple-effect.mdl-js-menu[for=accbtn]',
-                        m('li.mdl-menu__item', 'me@example.com'),
-                        m('li.mdl-menu__item', 'someone_else@example.com'),
-                        m('li.mdl-menu__item',
-                            m('i.material-icons', 'add'),
-                            'Add another account...',
-                        ),
                     ),
                 ),
             ]);
@@ -63,7 +62,7 @@
             var navClasses = classNames(
                 'drawer-nav',
                 'mdl-navigation',
-                'mdl-color--blue-grey-800',
+                //'mdl-color--blue-grey-800',
             );
             var linkClasses = classNames(
                 'drawer-nav-link',
